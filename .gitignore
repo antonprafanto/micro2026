@@ -1,5 +1,13 @@
 # Materi Mikrokontroller - Ignore Files
 
+# Course planning documents (not for public repo)
+BUDGET_AND_KIT_GUIDE.md
+GRADING_RUBRIC.md
+KURIKULUM_MIKROKONTROLLER_ESP32.md
+KURIKULUM_MIKROKONTROLLER_ESP32_REVISED.md
+LAB_SAFETY_GUIDE.md
+PROJECT_IDEAS.md
+
 # OS generated files
 .DS_Store
 .DS_Store?
