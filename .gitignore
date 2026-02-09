@@ -1,0 +1,29 @@
+# Materi Mikrokontroller - Ignore Files
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Brain artifacts (internal notes)
+.gemini/
+brain/
+
+# OS-specific
+desktop.ini
