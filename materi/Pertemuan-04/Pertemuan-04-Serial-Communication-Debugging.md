@@ -119,6 +119,8 @@ ESP32 punya **3 hardware UART**:
 
 > ⚠️ **PERHATIAN — UART1 (GPIO9/GPIO10)**: Pin default UART1 terhubung ke **SPI Flash internal** ESP32. Jika kamu langsung pakai GPIO9/GPIO10 untuk UART1, program bisa **crash atau tidak stabil**! Gunakan `HardwareSerial` dengan custom pin (lihat Seksi 9).
 
+> 📌 **Catatan Board Khusus**: Pin UART di atas berlaku untuk **ESP32 standar** (DevKit). Jika kamu pakai **ESP32-S3**, layoutnya **berbeda sama sekali** — selalu cek pinout board spesifik kamu sebelum wiring!
+
 **Best Practice**: Gunakan **UART0** (`Serial`) untuk debugging ke PC. Gunakan **UART2** atau UART1 dengan custom pin untuk komunikasi ke perangkat eksternal.
 
 ---
@@ -716,6 +718,28 @@ void loop() {
 ```
 
 > 💡 **Tips pin aman untuk UART1**: Pakai misalnya GPIO4 (RX) dan GPIO5 (TX) — hindari GPIO9/GPIO10 (SPI Flash) dan GPIO2 (onboard LED/boot mode pada banyak board).
+
+---
+
+### **Memahami Format `SERIAL_8N1`**
+
+Saat memanggil `mySerial.begin()`, ada parameter kedua yaitu **serial frame format**:
+
+```cpp
+mySerial.begin(9600, SERIAL_8N1, RX_PIN, TX_PIN);
+//                    ^^^^^^^^^
+//                    Format frame UART
+```
+
+`SERIAL_8N1` merupakan format yang paling umum digunakan, artinya:
+
+| Komponen | Nilai       | Arti                               |
+| -------- | ----------- | ---------------------------------- |
+| `8`      | 8 data bits | Ukuran data per frame              |
+| `N`      | No parity   | Tidak ada bit parity (error check) |
+| `1`      | 1 stop bit  | Penanda akhir frame                |
+
+Format lain yang tersedia: `SERIAL_7E1`, `SERIAL_8O2`, dll. — tapi **99% kasus pakai `SERIAL_8N1`** sudah cukup.
 
 ---
 
