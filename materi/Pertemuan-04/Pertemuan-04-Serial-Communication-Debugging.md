@@ -686,8 +686,10 @@ Kamu butuh `HardwareSerial` saat:
 // Buat instance HardwareSerial pada UART2
 HardwareSerial mySerial(2);
 
-#define RX_PIN 16   // GPIO bebas — pilih yang tidak konflik
-#define TX_PIN 17   // GPIO bebas
+// GPIO16 = RX default UART2, GPIO17 = TX default UART2
+// Kamu bisa juga pakai pin lain, misal: RX_PIN=4, TX_PIN=5
+#define RX_PIN 16
+#define TX_PIN 17
 
 void setup() {
   Serial.begin(115200);      // UART0 – untuk debug ke PC
@@ -696,7 +698,7 @@ void setup() {
   // Format: begin(baudRate, config, RX_pin, TX_pin)
   mySerial.begin(9600, SERIAL_8N1, RX_PIN, TX_PIN);
 
-  Serial.println("UART2 siap di GPIO16(RX) dan GPIO17(TX)");
+  Serial.println("UART2 siap di GPIO" + String(RX_PIN) + "(RX) dan GPIO" + String(TX_PIN) + "(TX)");
 }
 
 void loop() {
@@ -713,7 +715,7 @@ void loop() {
 }
 ```
 
-> 💡 **Tips pin**: Untuk UART1, pakai misalnya GPIO4 (RX) dan GPIO2 (TX) — hindari GPIO9/GPIO10 yang konflik dengan SPI Flash!
+> 💡 **Tips pin aman untuk UART1**: Pakai misalnya GPIO4 (RX) dan GPIO5 (TX) — hindari GPIO9/GPIO10 (SPI Flash) dan GPIO2 (onboard LED/boot mode pada banyak board).
 
 ---
 
@@ -759,17 +761,19 @@ void loop() {
 /*
  * ESP32 UART Receiver
  * Menerima data dari board lain via UART1
+ * Wiring: GPIO21 (RX board ini) ← GPIO19 (TX board sender)
  * Referensi: Random Nerd Tutorials
  */
 
-#define TXD1 19
-#define RXD1 21
+// Pin dari perspektif board PENERIMA:
+#define MY_RX 21   // terima dari TX sender (GPIO19)
+#define MY_TX 19   // kirim balik (opsional, tidak dipakai di contoh ini)
 
 HardwareSerial mySerial(1);  // Pakai UART1 dengan custom pin
 
 void setup() {
   Serial.begin(115200);
-  mySerial.begin(9600, SERIAL_8N1, RXD1, TXD1);
+  mySerial.begin(9600, SERIAL_8N1, MY_RX, MY_TX);
   Serial.println("ESP32 UART Receiver siap!");
 }
 
