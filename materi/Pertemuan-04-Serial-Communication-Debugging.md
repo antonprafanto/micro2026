@@ -547,24 +547,24 @@ void processInput(String cmd) {
 ```cpp
 String s = "  Hello World  ";
 
-// ⚠️ Metode di bawah MODIFIKASI IN-PLACE (tidak perlu di-assign ulang)
-s.trim();               // s sekarang: "Hello World" (whitespace terhapus)
-s.toLowerCase();        // s sekarang: "hello world"
-s.toUpperCase();        // s sekarang: "HELLO WORLD"
+// ⚠️ Metode IN-PLACE: langsung mengubah isi String s (tidak perlu di-assign ulang)
+s.trim();                         // s = "Hello World"
+s.toLowerCase();                  // s = "hello world"
+s.toUpperCase();                  // s = "HELLO WORLD"
+s.replace("World", "ESP32");      // s = "HELLO ESP32"  ← ⚠️ in-place, bukan return!
 
-// Metode yang RETURN nilai (s tidak berubah)
-int len  = s.length();             // 11
-int pos  = s.indexOf("World");     // Posisi "World": 6
-bool sw  = s.startsWith("Hell");   // true
-bool ew  = s.endsWith("ld");       // true
-String r = s.replace("World", "ESP32");  // return copy "Hello ESP32"
-String sub = s.substring(0, 5);    // return "Hello" (index 0-4)
+// Metode READ-ONLY: return nilai, s TIDAK berubah
+int    len = s.length();          // 11
+int    pos = s.indexOf("World");  // 6
+bool   sw  = s.startsWith("H");   // true
+bool   ew  = s.endsWith("2");     // true
+String sub = s.substring(0, 5);   // "HELLO" (String baru, s tetap)
 
-// Konversi type
-int   i  = s.toInt();              // String → int
-float f  = s.toFloat();            // String → float
-String s2 = String(42);            // int → String
-String s3 = String(3.14, 2);       // float → String (2 desimal)
+// Konversi String ↔ angka
+int   i  = s.toInt();             // String → int
+float f  = s.toFloat();           // String → float
+String s2 = String(42);           // int → String: "42"
+String s3 = String(3.14, 2);      // float → String: "3.14"
 ```
 
 ---
