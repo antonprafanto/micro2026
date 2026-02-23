@@ -700,7 +700,7 @@ void setup() {
   // Format: begin(baudRate, config, RX_pin, TX_pin)
   mySerial.begin(9600, SERIAL_8N1, RX_PIN, TX_PIN);
 
-  Serial.println("UART2 siap di GPIO" + String(RX_PIN) + "(RX) dan GPIO" + String(TX_PIN) + "(TX)");
+  Serial.println("UART2 siap di GPIO" + String(RX_PIN) + " (RX) dan GPIO" + String(TX_PIN) + " (TX)");
 }
 
 void loop() {
@@ -745,10 +745,14 @@ Format lain yang tersedia: `SERIAL_7E1`, `SERIAL_8O2`, dll. — tapi **99% kasus
 
 ### **Contoh: Komunikasi Antar Dua ESP32**
 
-Skenario ini membutuhkan **2 board ESP32**. Hubungkan:
+Skenario ini membutuhkan **2 board ESP32**. Contoh ini bersifat **simplex** (satu arah: A → B).
+
+Hubungkan:
 
 - TX board A (GPIO19) → RX board B (GPIO21)
 - GND board A → GND board B
+
+> 💡 Untuk **full-duplex** (kirim dua arah), tambah kabel: TX board B → RX board A.
 
 #### **Code Board Sender (Pengirim)**
 
@@ -823,12 +827,13 @@ Received: 2
 
 ### **Ringkasan HardwareSerial**
 
-|                | `Serial` (UART0)      | `HardwareSerial mySerial(2)` (UART2) |
-| -------------- | --------------------- | ------------------------------------ |
-| Pin            | GPIO1(TX) / GPIO3(RX) | Custom — bebas pilih GPIO            |
-| Tujuan         | Debug ke PC           | Komunikasi ke modul/board lain       |
-| Bisa parallel? | ✅ Ya                 | ✅ Ya                                |
-| Konflik flash? | Tidak                 | Tidak (jika bukan GPIO9/10)          |
+|                | `Serial` (UART0)      | `HardwareSerial mySerial(N)`   |
+| -------------- | --------------------- | ------------------------------ |
+| Port           | UART0                 | UART1, UART2 (sesuai `N`)      |
+| Pin            | GPIO1(TX) / GPIO3(RX) | Custom — bebas pilih GPIO      |
+| Tujuan         | Debug ke PC           | Komunikasi ke modul/board lain |
+| Bisa parallel? | ✅ Ya                 | ✅ Ya                          |
+| Konflik flash? | Tidak                 | Tidak (jika bukan GPIO9/10)    |
 
 ---
 
