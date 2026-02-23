@@ -257,7 +257,7 @@
 
 ### **Step 5: Test Flow Sequence**
 
-- [ ] Test sequence: `1` → `4` → `5:64` → `3` → `2` → `6`
+- [ ] Test sequence: ketik `1` → `4` → `5` (lalu ketik `64`) → `3` → `2` → `6`
 - [ ] Semua transisi berjalan smooth
 - [ ] Menu selalu muncul kembali setelah tiap aksi
 - [ ] Tidak ada program crash / freeze

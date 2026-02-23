@@ -547,21 +547,24 @@ void processInput(String cmd) {
 ```cpp
 String s = "  Hello World  ";
 
-s.trim();               // Hapus whitespace: "Hello World"
-s.toLowerCase();        // "hello world"
-s.toUpperCase();        // "HELLO WORLD"
-s.length();             // Panjang string: 11
-s.indexOf("World");     // Posisi "World": 6
-s.startsWith("Hell");   // true
-s.endsWith("ld");       // true
-s.replace("World", "ESP32");  // "Hello ESP32"
-s.substring(0, 5);      // "Hello" (index 0-4)
+// ⚠️ Metode di bawah MODIFIKASI IN-PLACE (tidak perlu di-assign ulang)
+s.trim();               // s sekarang: "Hello World" (whitespace terhapus)
+s.toLowerCase();        // s sekarang: "hello world"
+s.toUpperCase();        // s sekarang: "HELLO WORLD"
 
-// Konversi
-int i = s.toInt();              // String → int
-float f = s.toFloat();          // String → float
-String s2 = String(42);         // int → String
-String s3 = String(3.14, 2);    // float → String (2 desimal)
+// Metode yang RETURN nilai (s tidak berubah)
+int len  = s.length();             // 11
+int pos  = s.indexOf("World");     // Posisi "World": 6
+bool sw  = s.startsWith("Hell");   // true
+bool ew  = s.endsWith("ld");       // true
+String r = s.replace("World", "ESP32");  // return copy "Hello ESP32"
+String sub = s.substring(0, 5);    // return "Hello" (index 0-4)
+
+// Konversi type
+int   i  = s.toInt();              // String → int
+float f  = s.toFloat();            // String → float
+String s2 = String(42);            // int → String
+String s3 = String(3.14, 2);       // float → String (2 desimal)
 ```
 
 ---
@@ -585,9 +588,11 @@ void processCommand(String cmd) {
   Serial.printf("Command: %s, Value: %d\n", command.c_str(), value);
 
   if (command == "LED") {
+    value = constrain(value, 0, 255);   // Batasi 0-255 agar aman
     ledcWrite(LED_PIN, value);
     Serial.printf("LED brightness set to: %d\n", value);
   } else if (command == "DELAY") {
+    value = constrain(value, 0, 5000);  // Max 5 detik – jangan sampai hang!
     delay(value);
     Serial.printf("Delayed %d ms\n", value);
   }
@@ -831,8 +836,10 @@ LED:
 1. Run simulation
 2. Klik ikon **Serial Plotter** (ikon grafik 📊 di bawah)
 3. **Drag knob potensiometer** → lihat dua garis bergerak!
-4. Garis 1 (Pot_ADC): rentang 0-4095
-5. Garis 2 (LED_Brightness): rentang 0-255
+4. **Garis 1** (nilai pertama / potValue): rentang 0–4095
+5. **Garis 2** (nilai kedua / brightness): rentang 0–255
+
+> 💡 **Catatan**: Di Wokwi, label garis di plotter muncul otomatis sebagai angka index (1, 2). Di Arduino IDE 2.x dengan format `Label:nilai`, nama label akan muncul.
 
 ---
 

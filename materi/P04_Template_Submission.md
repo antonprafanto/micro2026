@@ -100,16 +100,16 @@ Contoh: https://wokwi.com/projects/123456789
 
 **Test Checklist** (centang ✓ jika berfungsi):
 
-| Pilihan | Perintah  | Expected Behavior                          | ✓   |
-| ------- | --------- | ------------------------------------------ | --- |
-| 1       | Ketik `1` | LED ON penuh (255/255)                     | [ ] |
-| 2       | Ketik `2` | LED OFF                                    | [ ] |
-| 3       | Ketik `3` | LED blink 5x, setiap blink ada log serial  | [ ] |
-| 4       | Ketik `4` | ADC value, voltage, dan persentase tampil  | [ ] |
-| 5       | Ketik `5` | Prompt minta input brightness → LED update | [ ] |
-| 6       | Ketik `6` | Uptime, LED state, free heap tampil        | [ ] |
-| 0       | Ketik `0` | Menu ditampilkan ulang                     | [ ] |
-| Error   | Ketik `9` | Pesan "pilihan tidak valid"                | [ ] |
+| Pilihan | Perintah  | Expected Behavior                               | ✓   |
+| ------- | --------- | ----------------------------------------------- | --- |
+| 1       | Ketik `1` | LED ON penuh (255/255)                          | [ ] |
+| 2       | Ketik `2` | LED OFF                                         | [ ] |
+| 3       | Ketik `3` | LED blink 5x, setiap blink ada log serial       | [ ] |
+| 4       | Ketik `4` | ADC value, voltage, dan persentase tampil       | [ ] |
+| 5       | Ketik `5` | Prompt minta input brightness → LED update      | [ ] |
+| 6       | Ketik `6` | Uptime, LED state, free heap, flash size tampil | [ ] |
+| 0       | Ketik `0` | Menu ditampilkan ulang                          | [ ] |
+| Error   | Ketik `9` | Pesan "pilihan tidak valid"                     | [ ] |
 
 ---
 
