@@ -382,25 +382,22 @@ ESP32 pakai **LEDC (LED Controller)** peripheral = hardware PWM yang powerful!
 #define PWM_RESOLUTION 8 // 8-bit (0-255)
 
 void setup() {
-  // 1. Configure channel
-  ledcSetup(PWM_CHANNEL, PWM_FREQ, PWM_RESOLUTION);
-
-  // 2. Attach pin to channel
-  ledcAttachPin(LED_PIN, PWM_CHANNEL);
+  // 1. Setup PWM (NEW API: combines setup + attach)
+  ledcAttach(LED_PIN, PWM_FREQ, PWM_RESOLUTION);
 }
 
 void loop() {
-  // 3. Write duty cycle (0-255 untuk 8-bit)
-  ledcWrite(PWM_CHANNEL, 255);  // 100% brightness
+  // 2. Write duty cycle to pin directly (0-255 untuk 8-bit)
+  ledcWrite(LED_PIN, 255);  // 100% brightness
   delay(1000);
 
-  ledcWrite(PWM_CHANNEL, 128);  // 50% brightness
+  ledcWrite(LED_PIN, 128);  // 50% brightness
   delay(1000);
 
-  ledcWrite(PWM_CHANNEL, 64);   // 25% brightness
+  ledcWrite(LED_PIN, 64);   // 25% brightness
   delay(1000);
 
-  ledcWrite(PWM_CHANNEL, 0);    // 0% (OFF)
+  ledcWrite(LED_PIN, 0);    // 0% (OFF)
   delay(1000);
 }
 ```
@@ -723,9 +720,8 @@ GPIO15 → Resistor 220Ω → LED → GND
 #define PWM_RESOLUTION 8  // 8-bit (0-255)
 
 void setup() {
-  // Setup PWM
-  ledcSetup(PWM_CHANNEL, PWM_FREQ, PWM_RESOLUTION);
-  ledcAttachPin(LED_PIN, PWM_CHANNEL);
+  // Setup PWM (NEW API)
+  ledcAttach(LED_PIN, PWM_FREQ, PWM_RESOLUTION);
 
   Serial.begin(115200);
   Serial.println("LED Brightness Fading");
@@ -734,7 +730,7 @@ void setup() {
 void loop() {
   // Fade UP (0 → 255)
   for (int brightness = 0; brightness <= 255; brightness++) {
-    ledcWrite(PWM_CHANNEL, brightness);
+    ledcWrite(LED_PIN, brightness);
     Serial.print("Brightness: ");
     Serial.println(brightness);
     delay(10);  // 10ms per step = 2.55s total
@@ -744,7 +740,7 @@ void loop() {
 
   // Fade DOWN (255 → 0)
   for (int brightness = 255; brightness >= 0; brightness--) {
-    ledcWrite(PWM_CHANNEL, brightness);
+    ledcWrite(LED_PIN, brightness);
     Serial.print("Brightness: ");
     Serial.println(brightness);
     delay(10);
@@ -808,9 +804,8 @@ LED:
 #define PWM_RESOLUTION 8  // 8-bit = 0-255
 
 void setup() {
-  // Setup PWM untuk LED
-  ledcSetup(PWM_CHANNEL, PWM_FREQ, PWM_RESOLUTION);
-  ledcAttachPin(LED_PIN, PWM_CHANNEL);
+  // Setup PWM untuk LED (NEW API)
+  ledcAttach(LED_PIN, PWM_FREQ, PWM_RESOLUTION);
 
   Serial.begin(115200);
   Serial.println("=== INTERACTIVE LED DIMMER ===");
@@ -824,8 +819,8 @@ void loop() {
   // Scale ke PWM range (0-255)
   int brightness = map(potValue, 0, 4095, 0, 255);
 
-  // Set LED brightness
-  ledcWrite(PWM_CHANNEL, brightness);
+  // Set LED brightness (write to pin directly)
+  ledcWrite(LED_PIN, brightness);
 
   // Calculate percentage
   int percentage = map(brightness, 0, 255, 0, 100);

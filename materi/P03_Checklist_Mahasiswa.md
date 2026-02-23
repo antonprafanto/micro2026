@@ -8,9 +8,9 @@
 
 ## 👤 Informasi
 
-- **Nama**: **************\_\_\_**************
-- **NIM**: **************\_\_\_**************
-- **Tanggal**: **************\_\_\_**************
+- **Nama**: ******\*\*******\_\_\_******\*\*******
+- **NIM**: ******\*\*******\_\_\_******\*\*******
+- **Tanggal**: ******\*\*******\_\_\_******\*\*******
 
 ---
 
@@ -109,9 +109,9 @@
 
 - [ ] Lihat di code: `int percentage = map(potValue, 0, 4095, 0, 100);`
 - [ ] **Pertanyaan**: Apa fungsi `map()`?  
-       Jawab: **************\_\_\_**************
+       Jawab: ******\*\*******\_\_\_******\*\*******
 - [ ] **Pertanyaan**: Kenapa range 0-4095 (bukan 0-255)?  
-       Jawab: **************\_\_\_**************
+       Jawab: ******\*\*******\_\_\_******\*\*******
 
 ---
 
@@ -145,9 +145,9 @@
 
 - [ ] Baca materi PWM di pertemuan 3
 - [ ] **Pertanyaan**: Apa itu Duty Cycle?  
-       Jawab: **************\_\_\_**************
+       Jawab: ******\*\*******\_\_\_******\*\*******
 - [ ] **Pertanyaan**: Kenapa LED bisa redup dengan PWM (padahal digital cuma HIGH/LOW)?  
-       Jawab: **************\_\_\_**************
+       Jawab: ******\*\*******\_\_\_******\*\*******
 
 **Key Concept**:
 
@@ -163,9 +163,8 @@
 - [ ] Paste ke Wokwi editor
 - [ ] Code key check:
   ```cpp
-  ledcSetup(PWM_CHANNEL, PWM_FREQ, PWM_RESOLUTION);
-  ledcAttachPin(LED_PIN, PWM_CHANNEL);
-  ledcWrite(PWM_CHANNEL, brightness);
+  ledcAttach(LED_PIN, PWM_FREQ, PWM_RESOLUTION);
+  ledcWrite(LED_PIN, brightness);
   ```
 
 ---
@@ -184,12 +183,10 @@
 
 ### **Step 6: Understand LEDC Functions**
 
-- [ ] **`ledcSetup(channel, freq, resolution)`**:  
-       Fungsi: **************\_\_\_**************
-- [ ] **`ledcAttachPin(pin, channel)`**:  
-       Fungsi: **************\_\_\_**************
-- [ ] **`ledcWrite(channel, value)`**:  
-       Fungsi: **************\_\_\_**************
+- [ ] **`ledcAttach(pin, freq, resolution)`**:  
+       Fungsi: ******\*\*******\_\_\_******\*\*******
+- [ ] **`ledcWrite(pin, value)`**:  
+       Fungsi: ******\*\*******\_\_\_******\*\*******
 
 ---
 
@@ -223,10 +220,10 @@
 - [ ] Code structure check:
   - [ ] `#define POT_PIN 34` ← pot input
   - [ ] `#define LED_PIN 15` ← LED output
-  - [ ] `ledcSetup()` di setup()
+  - [ ] `ledcAttach()` di setup()
   - [ ] `analogRead(POT_PIN)` di loop()
   - [ ] `map()` untuk scaling ADC → PWM
-  - [ ] `ledcWrite()` untuk set brightness
+  - [ ] `ledcWrite(LED_PIN, value)` untuk set brightness
 
 ---
 
@@ -248,7 +245,7 @@
 
 - [ ] Pahami flow di atas
 - [ ] **Pertanyaan**: Kenapa perlu `map()`? Kenapa tidak langsung `ledcWrite(potValue)`?  
-       Jawab: **************\_\_\_**************
+       Jawab: ******\*\*******\_\_\_******\*\*******
 
 **Answer Hint**: ADC = 12-bit (0-4095), PWM 8-bit (0-255). Harus scaling!
 
@@ -425,7 +422,7 @@
 - [ ] Submit **BEFORE DEADLINE**!
 - [ ] Screenshot bukti submit (backup)
 
-**DEADLINE**: **************\_\_\_**************
+**DEADLINE**: ******\*\*******\_\_\_******\*\*******
 
 ---
 
@@ -466,7 +463,7 @@ _________________________________________________________________
 - [ ] Deadline noted
 - [ ] (Optional) Challenge completed
 
-**Paraf**: ****\_\_**** **Tanggal**: ****\_\_****
+**Paraf**: \***\*\_\_\*\*** **Tanggal**: \***\*\_\_\*\***
 
 ---
 

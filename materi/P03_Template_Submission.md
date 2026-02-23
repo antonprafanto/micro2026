@@ -201,7 +201,7 @@ Jika Anda sudah mengerjakan challenge:
 - [ ] Dual LED Inverse Control (2 LED, saat 1 terang, 1 redup)
 - [ ] RGB LED Color Mixer (3 pot untuk R, G, B)
 - [ ] LED dengan Threshold (ON hanya jika pot > 50%)
-- [ ] Lainnya (jelaskan): ********\_********
+- [ ] Lainnya (jelaskan): **\*\*\*\***\_**\*\*\*\***
 
 **Link Wokwi Challenge** (jika ada):
 
@@ -273,7 +273,7 @@ P03_Challenge_2111001_AntonPrafanto.png (challenge screenshot)
 - [ ] E-learning (LMS)
 - [ ] Google Classroom
 - [ ] Email ke: [email dosen]
-- [ ] Lainnya: ********\_********
+- [ ] Lainnya: **\*\*\*\***\_**\*\*\*\***
 
 ---
 
@@ -311,7 +311,7 @@ A:
 
 1. PWM frequency terlalu rendah → pastikan 5000 Hz
 2. `delay()` terlalu besar → kurangi jadi 50ms atau less
-3. Check `ledcSetup()` sudah dipanggil di `setup()`
+3. Check `ledcAttach()` sudah dipanggil di `setup()`
 
 **Q: Pot sudah full right, tapi LED tidak maksimal terang. Kenapa?**  
 A:
@@ -353,8 +353,8 @@ A: Tidak wajib, tapi **HIGHLY RECOMMENDED** (+10% bonus!). Video tunjukkan real-
 - [ ] Check wiring LED: GPIO → Resistor → Anode → Cathode → GND
 - [ ] Polaritas LED benar? (panjang=anode, pendek=cathode)
 - [ ] Resistor terpasang? (jangan skip!)
-- [ ] `ledcSetup()` dan `ledcAttachPin()` sudah dipanggil?
-- [ ] Try manual test: `ledcWrite(PWM_CHANNEL, 255)` di `setup()`
+- [ ] `ledcAttach()` sudah dipanggil?
+- [ ] Try manual test: `ledcWrite(LED_PIN, 255)` di `setup()`
 
 ### **Problem: LED nyala tapi brightness tidak berubah**
 
