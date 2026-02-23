@@ -313,7 +313,7 @@ A:
 A:
 
 1. Pastikan Line Ending = **"NL & CR"** di Serial Monitor Wokwi
-2. Pastikan budi rate 115200
+2. Pastikan **baud rate** 115200
 3. Try ketik angka (misalnya `1`) lalu tekan Enter
 
 **Q: Blink function berjalan tapi program macet (tidak mau ketik lagi). Kenapa?**  

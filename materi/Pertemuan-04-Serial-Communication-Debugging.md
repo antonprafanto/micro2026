@@ -169,8 +169,9 @@ ESP32 punya **3 hardware UART**:
 ```cpp
 void setup() {
   Serial.begin(115200);   // Baud rate 115200
-  // Optional: tunggu Serial siap (terutama di Leonardo/Micro)
-  while (!Serial);        // ESP32: biasanya tidak perlu
+  // ⚠️ Hati-hati: while (!Serial) bisa hang selamanya di ESP32
+  // jika Serial Monitor tidak dibuka. Umumnya TIDAK diperlukan di ESP32.
+  // while (!Serial);     // Hanya butuh di Arduino Leonardo/Micro
 }
 ```
 
@@ -629,11 +630,12 @@ void loop() {
 
     switch (choice) {
       case 1:
-        digitalWrite(LED_PIN, HIGH);
+        // Gunakan ledcWrite() bukan digitalWrite() agar bisa PWM!
+        ledcWrite(LED_PIN, 255);   // LED ON (brightness max)
         Serial.println("✅ LED ON");
         break;
       case 2:
-        digitalWrite(LED_PIN, LOW);
+        ledcWrite(LED_PIN, 0);     // LED OFF (brightness 0)
         Serial.println("✅ LED OFF");
         break;
       case 3:
@@ -932,14 +934,18 @@ void loop() {
 ### **Fitur Program**:
 
 ```
-=== ESP32 Control Menu ===
-1. LED ON
-2. LED OFF
-3. Blink 5x
-4. Read Sensor (ADC)
-5. Set Brightness (0-255)
-0. Tampilkan Menu lagi
-==========================
+╔══════════════════════════════╗
+║     ESP32 Control Menu       ║
+╠══════════════════════════════╣
+║  1. LED ON                   ║
+║  2. LED OFF                  ║
+║  3. Blink 5x                 ║
+║  4. Read Sensor (ADC)        ║
+║  5. Set Brightness (0-255)   ║
+║  6. System Info              ║
+║  0. Tampilkan Menu lagi      ║
+╚══════════════════════════════╝
+Pilihan (0-6):
 ```
 
 ---
@@ -1148,13 +1154,15 @@ Tambahkan pilihan menu:
 case 7:
   Serial.println("Auto mode ON. Ketik 's' lalu Enter untuk stop.");
   while (true) {
+    // Cek input stop SEBELUM delay agar responsif
     if (Serial.available()) {
       String input = Serial.readStringUntil('\n');
       input.trim();
       if (input == "s") break;
     }
     readSensor();
-    delay(2000);
+    delay(2000);  // ⚠️ Blocking: ketik 's' baru dibaca setelah 2 detik selesai
+                  // Versi lebih responsif: ganti delay(2000) dengan loop 20×delay(100)
   }
   Serial.println("Auto mode OFF.");
   break;
