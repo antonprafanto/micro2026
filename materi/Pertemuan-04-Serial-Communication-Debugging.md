@@ -787,7 +787,9 @@ Uptime     : 2005 ms
 void setup() {
   Serial.begin(115200);
   ledcAttach(LED_PIN, PWM_FREQ, PWM_RES);
-  Serial.println("Pot_ADC LED_Brightness");  // Label untuk Serial Plotter
+  // Label untuk Serial Plotter – kirim sekali di setup
+  // Format: "Label1:value1 Label2:value2" (Arduino IDE 2.x)
+  // Untuk Wokwi, cukup kirim 2 nilai dipisah tab setiap loop
 }
 
 void loop() {
@@ -894,7 +896,6 @@ void loop() {
                     value, value / 255.0 * 100);
 
     } else if (cmd == "status") {
-      int brightness = ledState ? 1 : 0;
       Serial.printf("LED Status: %s\n", ledState ? "ON" : "OFF");
 
     } else if (cmd.length() > 0) {
@@ -986,24 +987,23 @@ LED:
 #define PWM_RES   8     // 8-bit (0-255)
 
 // ── Global Variables ──────────────────────────
-bool   ledState    = false;
+bool   ledState      = false;
 int    ledBrightness = 0;
-int    blinkCount  = 0;
 
 // ────────────────────────────────────────────
 void printMenu() {
   Serial.println();
-  Serial.println("╔══════════════════════════╗");
-  Serial.println("║   ESP32 Control Menu     ║");
-  Serial.println("╠══════════════════════════╣");
-  Serial.println("║  1. LED ON               ║");
-  Serial.println("║  2. LED OFF              ║");
-  Serial.println("║  3. Blink 5x             ║");
-  Serial.println("║  4. Read Sensor          ║");
-  Serial.println("║  5. Set Brightness       ║");
-  Serial.println("║  6. System Info          ║");
-  Serial.println("║  0. Tampilkan Menu lagi  ║");
-  Serial.println("╚══════════════════════════╝");
+  Serial.println("╔══════════════════════════════╗");
+  Serial.println("║     ESP32 Control Menu       ║");
+  Serial.println("╠══════════════════════════════╣");
+  Serial.println("║  1. LED ON                   ║");
+  Serial.println("║  2. LED OFF                  ║");
+  Serial.println("║  3. Blink 5x                 ║");
+  Serial.println("║  4. Read Sensor (ADC)        ║");
+  Serial.println("║  5. Set Brightness (0-255)   ║");
+  Serial.println("║  6. System Info              ║");
+  Serial.println("║  0. Tampilkan Menu lagi      ║");
+  Serial.println("╚══════════════════════════════╝");
   Serial.print("Pilihan (0-6): ");
 }
 
@@ -1075,7 +1075,7 @@ void handleMenu(int choice) {
 
     case 5:
       Serial.print("\nMasukkan brightness (0-255): ");
-      while (Serial.available() == 0) { /* Tunggu input */ }
+      while (Serial.available() == 0) { delay(10); }  // Tunggu input
       {
         String br = Serial.readStringUntil('\n');
         br.trim();
@@ -1168,17 +1168,20 @@ Tambahkan password sebelum masuk menu:
 
 ```cpp
 void checkPassword() {
-  Serial.print("Masukkan password: ");
-  while (Serial.available() == 0) { }
-  String pass = Serial.readStringUntil('\n');
-  pass.trim();
+  // Gunakan loop, bukan rekursi (untuk hindari stack overflow!)
+  while (true) {
+    Serial.print("Masukkan password: ");
+    while (Serial.available() == 0) { delay(10); }
+    String pass = Serial.readStringUntil('\n');
+    pass.trim();
 
-  if (pass == "esp32") {
-    Serial.println("\n✅ Password benar! Selamat datang.");
-    printMenu();
-  } else {
-    Serial.println("\n❌ Password salah! Coba lagi...");
-    checkPassword();  // Rekursif
+    if (pass == "esp32") {
+      Serial.println("\n✅ Password benar! Selamat datang.");
+      printMenu();
+      return;  // Keluar dari loop
+    } else {
+      Serial.println("\n❌ Password salah! Coba lagi.");
+    }
   }
 }
 ```

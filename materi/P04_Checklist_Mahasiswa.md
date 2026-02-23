@@ -281,7 +281,7 @@
 **Problem: LED tidak blink**
 
 - [ ] Check wiring LED (GPIO15 → Resistor → Anode → Cathode → GND)
-- [ ] Manual test: ketik `1` dulu (LED ON)
+- [ ] Manual test: ketik `1` dulu (LED ON), lalu `3` (blink)
 
 **Problem: Serial.parseInt() baca 0 terus**
 
