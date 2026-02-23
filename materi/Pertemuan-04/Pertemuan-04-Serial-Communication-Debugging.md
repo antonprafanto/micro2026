@@ -44,6 +44,7 @@ Setelah pertemuan ini, mahasiswa mampu:
 6. Menerima Input dari Serial Monitor
 7. Parsing String & Integer
 8. Pola pembuatan Menu Interaktif
+9. **HardwareSerial** — UART1/UART2 dengan Custom Pin
 
 ### **Bagian 3: Praktikum Wokwi (70 menit)**
 
@@ -110,13 +111,15 @@ Di sisi PC, muncul sebagai **COM port** (Windows) atau **/dev/ttyUSB** (Linux/Ma
 
 ESP32 punya **3 hardware UART**:
 
-| Port      | TX Pin | RX Pin | Kegunaan                                   |
-| --------- | ------ | ------ | ------------------------------------------ |
-| **UART0** | GPIO1  | GPIO3  | Default `Serial` – debugging ke PC via USB |
-| **UART1** | GPIO10 | GPIO9  | Free to use (biasanya untuk sensor/modul)  |
-| **UART2** | GPIO17 | GPIO16 | Free to use (biasanya untuk GPS, GSM, dll) |
+| Port      | TX Default | RX Default | Kegunaan                                   |
+| --------- | ---------- | ---------- | ------------------------------------------ |
+| **UART0** | GPIO1      | GPIO3      | Default `Serial` – debugging ke PC via USB |
+| **UART1** | GPIO10     | GPIO9      | ⚠️ Terhubung ke SPI Flash — harus remap!   |
+| **UART2** | GPIO17     | GPIO16     | Free to use (GPS, GSM, sensor eksternal)   |
 
-**Best Practice**: Gunakan **UART0** (`Serial`) untuk debugging. Jangan hubungkan GPIO1/GPIO3 ke komponen saat programming!
+> ⚠️ **PERHATIAN — UART1 (GPIO9/GPIO10)**: Pin default UART1 terhubung ke **SPI Flash internal** ESP32. Jika kamu langsung pakai GPIO9/GPIO10 untuk UART1, program bisa **crash atau tidak stabil**! Gunakan `HardwareSerial` dengan custom pin (lihat Seksi 9).
+
+**Best Practice**: Gunakan **UART0** (`Serial`) untuk debugging ke PC. Gunakan **UART2** atau UART1 dengan custom pin untuk komunikasi ke perangkat eksternal.
 
 ---
 
@@ -660,6 +663,144 @@ void loop() {
   }
 }
 ```
+
+---
+
+## 9️⃣ HardwareSerial — Menggunakan UART1 / UART2
+
+> Sumber referensi: [Random Nerd Tutorials — ESP32 UART Communication](https://randomnerdtutorials.com/esp32-uart-communication-serial-arduino/)
+
+### **Kapan Butuh HardwareSerial?**
+
+Kamu butuh `HardwareSerial` saat:
+
+- Menghubungkan modul GPS, GSM, Bluetooth ke ESP32
+- Komunikasi **antar dua ESP32 board**
+- Pakai lebih dari satu UART secara bersamaan
+
+---
+
+### **Cara Membuat Custom Serial (UART2)**
+
+```cpp
+// Buat instance HardwareSerial pada UART2
+HardwareSerial mySerial(2);
+
+#define RX_PIN 16   // GPIO bebas — pilih yang tidak konflik
+#define TX_PIN 17   // GPIO bebas
+
+void setup() {
+  Serial.begin(115200);      // UART0 – untuk debug ke PC
+
+  // UART2 – untuk komunikasi ke perangkat lain
+  // Format: begin(baudRate, config, RX_pin, TX_pin)
+  mySerial.begin(9600, SERIAL_8N1, RX_PIN, TX_PIN);
+
+  Serial.println("UART2 siap di GPIO16(RX) dan GPIO17(TX)");
+}
+
+void loop() {
+  // Kirim data lewat UART2
+  mySerial.println("Hello dari ESP32!");
+
+  // Baca data dari UART2 (jika ada perangkat terhubung)
+  if (mySerial.available()) {
+    String msg = mySerial.readStringUntil('\n');
+    Serial.println("UART2 terima: " + msg);
+  }
+
+  delay(1000);
+}
+```
+
+> 💡 **Tips pin**: Untuk UART1, pakai misalnya GPIO4 (RX) dan GPIO2 (TX) — hindari GPIO9/GPIO10 yang konflik dengan SPI Flash!
+
+---
+
+### **Contoh: Komunikasi Antar Dua ESP32**
+
+Skenario ini membutuhkan **2 board ESP32**. Hubungkan:
+
+- TX board A (GPIO19) → RX board B (GPIO21)
+- GND board A → GND board B
+
+#### **Code Board Sender (Pengirim)**
+
+```cpp
+/*
+ * ESP32 UART Sender
+ * Mengirim counter ke board lain via UART1
+ * Referensi: Random Nerd Tutorials
+ */
+
+#define TXD1 19   // TX ke board penerima
+#define RXD1 21   // RX dari board penerima
+
+HardwareSerial mySerial(1);  // Pakai UART1 dengan custom pin
+int counter = 0;
+
+void setup() {
+  Serial.begin(115200);                           // UART0 – debug
+  mySerial.begin(9600, SERIAL_8N1, RXD1, TXD1);  // UART1 – ke board lain
+  Serial.println("ESP32 UART Transmitter siap!");
+}
+
+void loop() {
+  mySerial.println(String(counter));              // Kirim via UART1
+  Serial.println("Sent: " + String(counter));    // Log ke Serial Monitor
+  counter++;
+  delay(1000);
+}
+```
+
+#### **Code Board Receiver (Penerima)**
+
+```cpp
+/*
+ * ESP32 UART Receiver
+ * Menerima data dari board lain via UART1
+ * Referensi: Random Nerd Tutorials
+ */
+
+#define TXD1 19
+#define RXD1 21
+
+HardwareSerial mySerial(1);  // Pakai UART1 dengan custom pin
+
+void setup() {
+  Serial.begin(115200);
+  mySerial.begin(9600, SERIAL_8N1, RXD1, TXD1);
+  Serial.println("ESP32 UART Receiver siap!");
+}
+
+void loop() {
+  if (mySerial.available()) {
+    String message = mySerial.readStringUntil('\n');
+    Serial.println("Received: " + message);       // Tampilkan data diterima
+  }
+}
+```
+
+**Expected Output** (Serial Monitor Board Penerima):
+
+```
+ESP32 UART Receiver siap!
+Received: 0
+Received: 1
+Received: 2
+...
+```
+
+---
+
+### **Ringkasan HardwareSerial**
+
+|                | `Serial` (UART0)      | `HardwareSerial mySerial(2)` (UART2) |
+| -------------- | --------------------- | ------------------------------------ |
+| Pin            | GPIO1(TX) / GPIO3(RX) | Custom — bebas pilih GPIO            |
+| Tujuan         | Debug ke PC           | Komunikasi ke modul/board lain       |
+| Bisa parallel? | ✅ Ya                 | ✅ Ya                                |
+| Konflik flash? | Tidak                 | Tidak (jika bukan GPIO9/10)          |
 
 ---
 
