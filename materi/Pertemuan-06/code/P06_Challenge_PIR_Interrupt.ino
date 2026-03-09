@@ -117,7 +117,7 @@ void triggerAlarm(float jarak) {
   Serial.printf("🚨 Total gerakan: %d\n", motionCount);
   Serial.println("🚨 ══════════════════════════════════════ 🚨");
 
-  // Alarm pattern: 3 beep cepat
+  // Alarm pattern: 5 beep cepat
   for (int i = 0; i < 5; i++) {
     digitalWrite(BUZZER_PIN, HIGH);
     digitalWrite(LED_RED, HIGH);

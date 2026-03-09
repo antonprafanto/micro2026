@@ -491,9 +491,9 @@ ISR (Interrupt Service Routine) dijalankan di luar alur normal program. Ada atur
 |---|---|
 | Set variable (`flag = true`) | `delay()` / `delayMicroseconds()` |
 | Increment counter (`count++`) | `Serial.print()` / `Serial.println()` |
-| Baca/tulis GPIO (`digitalWrite()`) | `millis()` (unreliable di ISR) |
-| Set flag untuk "process later" | Operasi yang lama/blocking |
-|  | `yield()` atau `vTaskDelay()` |
+| Baca/tulis GPIO (`digitalWrite()`) | Operasi yang lama/blocking |
+| `millis()` (aman di ESP32 untuk debounce) | `yield()` atau `vTaskDelay()` |
+| Set flag untuk "process later" | Alokasi memory (`new`, `malloc`) |
 
 ### **Mengapa `IRAM_ATTR`?**
 
