@@ -12,6 +12,7 @@
 | 2   | [Pertemuan 02](./Pertemuan-02/) | Digital I/O & Breadboard         | [📄](./Pertemuan-02/Pertemuan-02-Digital-IO-Breadboard.md)          | [✅](./Pertemuan-02/P02_Checklist_Mahasiswa.md) | [💻](./Pertemuan-02/code/) |
 | 3   | [Pertemuan 03](./Pertemuan-03/) | Analog I/O & PWM                 | [📄](./Pertemuan-03/Pertemuan-03-Analog-IO-PWM.md)                  | [✅](./Pertemuan-03/P03_Checklist_Mahasiswa.md) | [💻](./Pertemuan-03/code/) |
 | 4   | [Pertemuan 04](./Pertemuan-04/) | Serial Communication & Debugging | [📄](./Pertemuan-04/Pertemuan-04-Serial-Communication-Debugging.md) | [✅](./Pertemuan-04/P04_Checklist_Mahasiswa.md) | [💻](./Pertemuan-04/code/) |
+| 5   | [Pertemuan 05](./Pertemuan-05/) | Sensor Suhu & Kelembaban (DHT22)  | [📄](./Pertemuan-05/Pertemuan-05-DHT22-Sensor-Suhu-Kelembaban.md)   | [✅](./Pertemuan-05/P05_Checklist_Mahasiswa.md) | [💻](./Pertemuan-05/code/) |
 
 ---
 
@@ -46,6 +47,13 @@ materi/
 │   └── code/
 │       ├── P04_SerialMenu.ino
 │       └── P04_Challenge_AutoRead.ino
+├── Pertemuan-05/       ← DHT22, Sensor Suhu & Kelembaban
+│   ├── Pertemuan-05-DHT22-Sensor-Suhu-Kelembaban.md
+│   ├── P05_Checklist_Mahasiswa.md
+│   ├── P05_Template_Submission.md
+│   └── code/
+│       ├── P05_DHT22_LED_Indicator.ino
+│       └── P05_Challenge_DHT22_Stats.ino
 └── resources/
     └── ESP32_Pinout_Reference.md
 ```
