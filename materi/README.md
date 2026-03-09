@@ -13,6 +13,7 @@
 | 3   | [Pertemuan 03](./Pertemuan-03/) | Analog I/O & PWM                 | [📄](./Pertemuan-03/Pertemuan-03-Analog-IO-PWM.md)                  | [✅](./Pertemuan-03/P03_Checklist_Mahasiswa.md) | [💻](./Pertemuan-03/code/) |
 | 4   | [Pertemuan 04](./Pertemuan-04/) | Serial Communication & Debugging | [📄](./Pertemuan-04/Pertemuan-04-Serial-Communication-Debugging.md) | [✅](./Pertemuan-04/P04_Checklist_Mahasiswa.md) | [💻](./Pertemuan-04/code/) |
 | 5   | [Pertemuan 05](./Pertemuan-05/) | Sensor Suhu & Kelembaban (DHT22)  | [📄](./Pertemuan-05/Pertemuan-05-DHT22-Sensor-Suhu-Kelembaban.md)   | [✅](./Pertemuan-05/P05_Checklist_Mahasiswa.md) | [💻](./Pertemuan-05/code/) |
+| 6   | [Pertemuan 06](./Pertemuan-06/) | Sensor Jarak & Interrupt Basics    | [📄](./Pertemuan-06/Pertemuan-06-Sensor-Jarak-Interrupt.md)          | [✅](./Pertemuan-06/P06_Checklist_Mahasiswa.md) | [💻](./Pertemuan-06/code/) |
 
 ---
 
@@ -54,6 +55,13 @@ materi/
 │   └── code/
 │       ├── P05_DHT22_LED_Indicator.ino
 │       └── P05_Challenge_DHT22_Stats.ino
+├── Pertemuan-06/       ← HC-SR04, Interrupt, Parking Sensor
+│   ├── Pertemuan-06-Sensor-Jarak-Interrupt.md
+│   ├── P06_Checklist_Mahasiswa.md
+│   ├── P06_Template_Submission.md
+│   └── code/
+│       ├── P06_Parking_Sensor.ino
+│       └── P06_Challenge_PIR_Interrupt.ino
 └── resources/
     └── ESP32_Pinout_Reference.md
 ```
